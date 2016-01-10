@@ -1,11 +1,13 @@
 # mojito-react
 vp24 editor with react.js
 
-to run the and develope the project, cd into project folder and execute
+to run and develop, cd into project folder and execute
 
 "gulp"
 
 this will startup express and watch your changes in html/js/scss files and livereload everything
+
+hover over to a new browser tab and enter "http:localhost:4000" and you're ready to go!
 
 execute
 
