@@ -15,6 +15,7 @@
 //*********************************************************
 
 var gulp = require('gulp'),
+    gutil = require("gulp-util"),
     sass = require('gulp-ruby-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -24,7 +25,9 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    zip = require('gulp-zip');
+    zip = require('gulp-zip'),
+    babel = require('gulp-babel'),
+    webpack = require("webpack");
 
 gulp.task('express', function() {
     var express = require('express');
@@ -75,8 +78,42 @@ gulp.task('clean-scripts', function() {
         .pipe(clean());
 });
 
-gulp.task('build-scripts-prod', ['clean-scripts'], function() {
+gulp.task('build-scripts-prod', ['clean-scripts', 'webpack'], function() {
     return _buildScripts('prod', randomJsName);
+});
+
+gulp.task('clean-js', function() {
+    return gulp.src('src/js/**/*.js', {read: false})
+        .pipe(clean());
+});
+
+gulp.task("webpack", ['clean-js'], function(callback) {
+    // run webpack
+    webpack({
+        entry: './src/jsx/main.js',
+        output: {
+            path: './src/js',
+            filename: 'index.js'
+        },
+        module: {
+            loaders: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: 'babel',
+                    query: {
+                        presets: ['es2015', 'react']
+                    }
+                }
+            ]
+        }
+    }, function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+        gutil.log("[webpack]", stats.toString({
+            // output options
+        }));
+        callback();
+    });
 });
 
 gulp.task('replace-html', function() {
@@ -90,7 +127,9 @@ gulp.task('replace-html', function() {
 
 gulp.task('watch', function() {
     gulp.watch('src/sass/**/*.scss', ['build-styles']);
+    gulp.watch('src/jsx/**/*.js', ['webpack']);
     gulp.watch('src/**/*.html', _notifyLiveReload);
+    gulp.watch('src/js/**/*.js', _notifyLiveReload);
     gulp.watch('src/css/*.css', _notifyLiveReload);
 });
 
@@ -99,7 +138,7 @@ gulp.task('watch', function() {
 //************************
 
 // default task (execute "gulp") - this task is meant to develop the project with
-gulp.task('default', ['build-styles', 'express', 'livereload', 'watch'], function() {
+gulp.task('default', ['build-styles', 'webpack', 'express', 'livereload', 'watch'], function() {
 
 });
 
@@ -153,7 +192,7 @@ function _buildScripts(env, name) {
     return gulp.src('src/js/**/*.js')
         // lint, process, whatever
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(concat('app.js'))
+        .pipe(concat('index.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('../js'))
         .pipe(rename(renameOptions))
