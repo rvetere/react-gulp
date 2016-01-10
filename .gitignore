@@ -1,5 +1,5 @@
 /.idea
-/mojito-react.iml
+/*.iml
 ### OSX template
 .DS_Store
 .AppleDouble
@@ -26,6 +26,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
 ### Node template
 # Logs
 logs
