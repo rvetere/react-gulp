@@ -1,12 +1,11 @@
 h1 {
-  color: rgba(255, 255, 255, 0.7);
+  color: black;
 }
 
 body {
-  background-color: black;
+  background-color: white;
   -webkit-transform: rotateY(45deg);
   transform: rotateY(45deg);
-  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 

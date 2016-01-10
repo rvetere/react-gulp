@@ -1,6 +1,4 @@
 # mojito-react
-vp24 editor with react.js
-
 
 - checkout project from github
 - cd into folder and execute "npm install"
