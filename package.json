@@ -1,8 +1,8 @@
 {
-  "name": "vp-react",
+  "name": "mojito-react",
   "version": "1.0.0",
   "description": "vp24 editor with react.js",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +15,7 @@
     "domains",
     "hosting"
   ],
-  "author": "remo vetere",
+  "author": "Remo Vetere",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rvetere/mojito-react/issues"
