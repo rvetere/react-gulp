@@ -1,0 +1,14 @@
+h1 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body {
+  background-color: black;
+  -webkit-transform: rotateY(45deg);
+  transform: rotateY(45deg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+
+
+/*# sourceMappingURL=styles.css.map */
